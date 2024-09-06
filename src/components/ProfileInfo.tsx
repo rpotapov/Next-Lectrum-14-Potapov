@@ -12,7 +12,7 @@ const ProfileInfo = async () => {
           className="w-25 h-25 inline-block rounded-full border-2 border-white shadow-[0px_2px_2px_0px_rgba(0,0,0,0.1)] mb-5"
           alt=""
         />
-        <Link href='#'>
+        <Link href={'/teacher/about'}>
           <p className="font-medium text-gray-800 text-center relative mb-4.5">
               John Dou
           </p>
@@ -24,7 +24,7 @@ const ProfileInfo = async () => {
           <li>12 Courses</li>
         </ul>
         <Link
-          href={'#'}
+          href={'/teacher/about'}
           prefetch
           className="text-sm font-medium text-gray-800 text-center leading-6 no-underline bg-transparent transition-all duration-300 ease-in-out mt-4 block hover:text-[#004a99]"
         >

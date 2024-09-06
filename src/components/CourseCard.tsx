@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const CourseCard = (course: CourseType) => {
     return (
-    <Link href={`#`}>
+    <Link href={`/courses/${course.hash}`}>
         <div className="bg-white w-full p-[10px] rounded-[3px] border border-[#efefef] transition-all duration-200 ease-in-out">
           <div className="relative block w-full h-[11.66vw] max-xl:h-[15.66vw] max-md:h-[22.66vw] max-sm:h-[49.66vw]">
             <Image className="w-full h-full object-cover" fill src={course.poster} alt={`Course ${course.hash}`} />
