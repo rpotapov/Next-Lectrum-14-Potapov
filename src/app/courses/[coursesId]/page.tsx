@@ -1,7 +1,5 @@
-import CourseDetail from '@/src/components/CourseDetail'
+import CourseDetail from '@/src/components/CourseDetail';
 
-const CourseDetailPage = ({ params }: { params: { coursesId: string } }) => {
-    return <CourseDetail courseId={params.coursesId} />
-}
+const CourseDetailPage = ({ params }: { params: { coursesId: string } }) => <CourseDetail courseId={params.coursesId} />
 
 export default CourseDetailPage;
