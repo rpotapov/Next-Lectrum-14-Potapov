@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { getBaseURL } from "../lib";
+import { TeamType } from "../types";
 
-const Team = () => {
+const Team = async () => {
+    const team = await fetch(`${getBaseURL()}/api/team`, { cache: 'force-cache' }).then(res => res.json()) as TeamType[];
     return (
         <div className="max-auto md:px-6 py-[50px]">
             <section className="md-32">
@@ -14,18 +17,14 @@ const Team = () => {
                     </div>
                 </div>
                 <div className="flex flex-col w-full justify-center items-center gap-5">
-                    <div className="mb-10 w-full text-center">
-                        <Image width={100} height={100} src="/images/avatar.jpg" alt="Team Member 1" className="rounded-full mx-auto w-32 h-32 mb-4" />
-                        <h3 className="text-xl font-semibold">John Doe</h3>
-                        <p className="text-gray-600">Lead Developer</p>
-                        <p className="text-gray-500 text-sm">John is a full-stack developer with over 10 years of experience in building scalable web applications.</p>
+                    {team.map(({ id, image, fullName, role, bio }) => (
+                        <div className="mb-10 w-full text-center" key={id}>
+                        <Image width={100} height={100} src={image} alt={`Team Member ${id}`} className="rounded-full mx-auto w-32 h-32 mb-4" />
+                        <h3 className="text-xl font-semibold">{fullName}</h3>
+                        <p className="text-gray-600">{role}</p>
+                        <p className="text-gray-500 text-sm">{bio}</p>
                     </div>
-                    <div className="mb-10 w-full text-center">
-                        <Image width={100} height={100} src="/images/avatar.jpg" alt="Team Member 2" className="rounded-full mx-auto w-32 h-32 mb-4" />
-                        <h3 className="text-xl font-semibold">Jessica Smith</h3>
-                        <p className="text-gray-600">UI/UX Designer</p>
-                        <p className="text-gray-500 text-sm">Jessica specializes in creating user-friendly interfaces and is passionate about enhancing user experiences.</p>
-                    </div>
+                    ))}
                 </div>
             </section>
         </div>

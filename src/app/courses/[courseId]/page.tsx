@@ -1,18 +1,27 @@
-import CourseDetail from "@/src/components/CourseDetail";
-import { mainCourses } from "@/src/mock";
+import CourseDetail from '@/src/components/CourseDetail';
+import { getBaseURL } from '@/src/lib';
+import { mainCourses } from '@/src/mock';
 
-const Course = ({params}: { params: { courseId: string } }) => {
-  const getCourse = mainCourses.find(course => course.hash === params.courseId)
+export const dynamicParams = false;
 
-  if(!getCourse) {
-      return(
-        <p>Course not found</p>
-      )
-  }
+export async function generateStaticParams() {
+    return mainCourses.map(({ hash }) => ({
+      courseId: hash,
+    }));
+}
 
-  return (
-        <CourseDetail course={getCourse} />
+const CoursePage = async ({ params }: { params: { courseId: string } }) => {
+    const res = await fetch(`${getBaseURL()}/api/courses/${params.courseId}`, { cache: 'no-store' });
+
+    if (!res.ok) {
+        return <p>Course not found</p>;
+    }
+
+    const course = await res.json();
+
+    return (
+        <CourseDetail course={course}/>
     );
 };
 
-export default Course
+export default CoursePage;
