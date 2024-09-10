@@ -1,9 +1,9 @@
-import Contact from '@/src/components/Contact';
+import Contact from "@/src/components/Contact";
 
-const ContactPage = () => {
+const ContactPage = async () => {
   return (
-      <Contact />
+    <Contact />
   );
-}
+};
 
 export default ContactPage;

@@ -8,17 +8,7 @@ const CourseList = () => {
       {mainCourses?.map((course) => (
         <CourseCard
           key={course.hash}
-          hash={course.hash}
-          badge={course.badge}
-          rating={course.rating}
-          poster={course.poster}
-          duration={course.duration}
-          views={course.views}
-          createdBy={course.createdBy}
-          price={course.price}
-          created={course.created}
-          description={course.description}
-          technologies={course.technologies}
+          course={course}
         />
       ))}
     </div>

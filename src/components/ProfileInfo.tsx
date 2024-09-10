@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 
 const ProfileInfo = async () => {
 
@@ -12,11 +12,11 @@ const ProfileInfo = async () => {
           className="w-25 h-25 inline-block rounded-full border-2 border-white shadow-[0px_2px_2px_0px_rgba(0,0,0,0.1)] mb-5"
           alt=""
         />
-        <Link href={'/teacher/about'}>
-          <p className="font-medium text-gray-800 text-center relative mb-4.5">
-              John Dou
-          </p>
-        </Link>
+        <p className="font-medium text-gray-800 text-center relative mb-4.5">
+          <Link href={`/teacher/about`} prefetch>
+            John Dou
+          </Link>
+        </p>
         <p className="text-xs text-gray-600 mb-[18px] truncate">Web Developer, Designer, and Teacher</p>
         <ul className="flex list-none text-center justify-center flex-wrap text-[#686f7a] text-xs">
           <li>615K Students</li>
@@ -24,9 +24,9 @@ const ProfileInfo = async () => {
           <li>12 Courses</li>
         </ul>
         <Link
-          href={'/teacher/about'}
-          prefetch
           className="text-sm font-medium text-gray-800 text-center leading-6 no-underline bg-transparent transition-all duration-300 ease-in-out mt-4 block hover:text-[#004a99]"
+          href={`/teacher/about`}
+          prefetch
         >
           Go To Profile
         </Link>

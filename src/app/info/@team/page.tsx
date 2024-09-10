@@ -1,9 +1,9 @@
-import Team from '@/src/components/Team';
+import Team from "@/src/components/Team";
 
-const TeamPage = () => {
+const TeamPage = async () => {
   return (
-      <Team />
+    <Team />
   );
-}
+};
 
 export default TeamPage;

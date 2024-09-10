@@ -1,5 +1,12 @@
-import About from '@/src/components/About';
+import About from "@/src/components/About";
 
-const TeacherAboutPage = () => <About />;
+const AboutPage = async () => {
 
-export default TeacherAboutPage;
+  return (
+    <div>
+      <About />
+    </div>
+  );
+};
+
+export default AboutPage;

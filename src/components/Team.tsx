@@ -15,13 +15,13 @@ const Team = () => {
                 </div>
                 <div className="flex flex-col w-full justify-center items-center gap-5">
                     <div className="mb-10 w-full text-center">
-                        <Image src="/images/avatar.jpg" alt="Team Member 1" width={100} height={100} className="rounded-full mx-auto w-32 h-32 mb-4" />
+                        <Image width={100} height={100} src="/images/avatar.jpg" alt="Team Member 1" className="rounded-full mx-auto w-32 h-32 mb-4" />
                         <h3 className="text-xl font-semibold">John Doe</h3>
                         <p className="text-gray-600">Lead Developer</p>
                         <p className="text-gray-500 text-sm">John is a full-stack developer with over 10 years of experience in building scalable web applications.</p>
                     </div>
                     <div className="mb-10 w-full text-center">
-                        <Image src="/images/avatar.jpg" alt="Team Member 2" width={100} height={100} className="rounded-full mx-auto w-32 h-32 mb-4" />
+                        <Image width={100} height={100} src="/images/avatar.jpg" alt="Team Member 2" className="rounded-full mx-auto w-32 h-32 mb-4" />
                         <h3 className="text-xl font-semibold">Jessica Smith</h3>
                         <p className="text-gray-600">UI/UX Designer</p>
                         <p className="text-gray-500 text-sm">Jessica specializes in creating user-friendly interfaces and is passionate about enhancing user experiences.</p>

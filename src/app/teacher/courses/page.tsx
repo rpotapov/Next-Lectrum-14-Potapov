@@ -1,7 +1,7 @@
 import CourseCard from "@/src/components/CourseCard";
 import { teacherCourses } from "@/src/mock";
 
-export default function CoursesPage() {
+export default async function CoursesPage() {
 
   return (
     <section className='py-[50px]'>
@@ -12,17 +12,7 @@ export default function CoursesPage() {
             {teacherCourses.map((course) => (
               <CourseCard
                 key={course.hash}
-                hash={course.hash}
-                badge={course.badge}
-                rating={course.rating}
-                poster={course.poster}
-                duration={course.duration}
-                views={course.views}
-                createdBy={course.createdBy}
-                price={course.price}
-                created={course.created}
-                description={course.description}
-                technologies={course.technologies}
+                course={course}
               />
             ))}
           </div>

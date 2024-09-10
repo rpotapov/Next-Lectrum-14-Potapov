@@ -1,11 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 
-const middleware = () => {
-  const response = NextResponse.next();
+export function middleware(req: NextRequest) {
+  const token = req.cookies.get('access-tokens')?.value;
 
-  response.cookies.set("name", "Anton");
+  if (!token) {
+    return NextResponse.redirect(new URL('/', req.url));
+  }
 
-  return response;
+  return NextResponse.next();
+}
+
+export const config = {
+  matcher: ['/admin']
 };
-
-export { middleware };
