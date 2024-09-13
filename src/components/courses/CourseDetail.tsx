@@ -1,6 +1,10 @@
 import { CourseType } from "@/src/types";
 import Image from "next/image";
 import Link from "next/link";
+import LikeButton from './LikeButton';
+import DislikeButton from './DislikeButton';
+import CommentSection from './CommentSection';
+
 const CourseDetail = ({ course }: { course: CourseType }) => {
 
   return (
@@ -43,6 +47,8 @@ const CourseDetail = ({ course }: { course: CourseType }) => {
               <div className="text-sm text-white text-left mb-5 max-md:items-center">
                 Last updated{" "}{course.created}
               </div>
+              <LikeButton />
+              <DislikeButton />
             </div>
           </div>
         </div>
@@ -102,6 +108,7 @@ const CourseDetail = ({ course }: { course: CourseType }) => {
             Throughout the course we cover tons of tools and technologies
             including:
           </p>
+          <CommentSection />
         </div>
       </section>
     </main>
