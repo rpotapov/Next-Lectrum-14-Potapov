@@ -1,4 +1,4 @@
-import CourseCard from "@/src/components/CourseCard";
+import CourseCard from "@/src/components/courses/CourseCard";
 import { teacherCourses } from "@/src/mock";
 
 export default async function CoursesPage() {

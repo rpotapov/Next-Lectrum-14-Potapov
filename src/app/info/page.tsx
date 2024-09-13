@@ -1,5 +1,5 @@
 const Info = () => {
-    return null;
+  return null;
 };
 
 export default Info;

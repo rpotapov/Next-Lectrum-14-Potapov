@@ -154,8 +154,19 @@ export const contactInfo = {
 export const news = [
   { id: "1", title: 'Breaking: New Framework Released', content: 'A new JavaScript framework has just been released.' },
   { id: "2", title: 'Next.js 15 is out!', content: 'Next.js 14 has been released with new features including ...' },
-  { id: "3", title: 'Top 10 Web Development Trends', content: 'Here are the top 10 trends in web development for 2025...' }
-]
+  { id: "3", title: 'Top 10 Web Development Trends', content: 'Here are the top 10 trends in web development for 2025...' },
+  { id: "4", title: 'AI Revolution: What Developers Need to Know', content: 'Artificial intelligence is transforming the world of development.' },
+  { id: "5", title: 'CSS Frameworks Battle: Tailwind vs Bootstrap', content: 'A detailed comparison between Tailwind CSS and Bootstrap.' },
+  { id: "6", title: 'How to Optimize React Applications', content: 'Practical tips on improving performance in React applications.' },
+  { id: "7", title: 'WebAssembly: The Future of Web Performance', content: 'Learn how WebAssembly is making web applications faster.' },
+  { id: "8", title: 'JavaScript in 2024: Trends and Predictions', content: 'Explore the future of JavaScript development in 2024 and beyond.' },
+  { id: "9", title: 'Top 5 Mistakes to Avoid in Next.js', content: 'Common pitfalls in Next.js development and how to avoid them.' },
+  { id: "10", title: 'GraphQL vs REST: Which API to Choose?', content: 'A detailed comparison of GraphQL and REST APIs for modern applications.' },
+  { id: "11", title: 'The Rise of Serverless Architecture', content: 'Serverless architecture is gaining popularity in cloud computing.' },
+  { id: "12", title: 'Why TypeScript is Taking Over JavaScript Projects', content: 'A look into why more developers are adopting TypeScript in their projects.' },
+  { id: "13", title: 'DevOps Best Practices for 2024', content: 'Tips and tools for efficient DevOps pipelines in 2024.' }
+];
+
 
 export const team = [
   { id: "1", image: "/images/avatar.jpg", fullName: "John Doe", role: "Lead Developer", bio: "John is a full-stack developer with over 10 years of experience in building scalable web applications." },

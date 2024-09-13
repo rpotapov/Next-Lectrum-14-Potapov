@@ -1,12 +1,11 @@
+import { CourseType } from "@/src/types";
 import Image from "next/image";
 import Link from "next/link";
-import { CourseType } from "../types";
-
 const CourseDetail = ({ course }: { course: CourseType }) => {
 
   return (
     <main>
-      <header className="bg-gray-800 pt-24 pb-8">
+      <section className="bg-gray-800 py-8">
         <div className="flex flex-col justify-center items-start mx-[10vw] h-auto">
           <div className="flex flex-row max-md:flex-col max-md:items-center">
             <div className="w-[32%] mr-[30px] max-md:w-[70%] max-md:mx-auto max-md:mb-5">
@@ -47,7 +46,7 @@ const CourseDetail = ({ course }: { course: CourseType }) => {
             </div>
           </div>
         </div>
-      </header>
+      </section>
       <section className="bg-white pt-[20px] pb-[35px]">
         <div className="flex flex-col justify-center items-start mx-[10vw]">
           <div className="flex items-center justify-between">
