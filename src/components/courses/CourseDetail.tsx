@@ -2,7 +2,7 @@ import { CourseType } from "@/src/types";
 import Image from "next/image";
 import Link from "next/link";
 import LikeButton from './LikeButton';
-import DislikeButton from './DislikeButton';
+// import DislikeButton from './DislikeButton';
 import CommentSection from './CommentSection';
 
 const CourseDetail = ({ course }: { course: CourseType }) => {
@@ -48,7 +48,7 @@ const CourseDetail = ({ course }: { course: CourseType }) => {
                 Last updated{" "}{course.created}
               </div>
               <LikeButton />
-              <DislikeButton />
+              {/* <DislikeButton /> */}
             </div>
           </div>
         </div>
