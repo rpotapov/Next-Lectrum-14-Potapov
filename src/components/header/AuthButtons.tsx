@@ -1,19 +1,25 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { logout as logoutAction } from "../../actions";
 
 const AuthButtons = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const router = useRouter();
 
-  const login = () => {
-    document.cookie = `access-tokens=valid-token; path=/;`;
-    setIsAuthenticated(true);
-  };
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    Boolean(localStorage.getItem("token"))
+  );
 
   const logout = () => {
-    document.cookie = `access-tokens=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
-    setIsAuthenticated(false);
+    const token = localStorage.getItem("token");
+    if (token) {
+      logoutAction(token);
+      localStorage.removeItem("token");
+      setIsAuthenticated(false);
+    }
   };
+
   return (
     <>
       {isAuthenticated ? (
@@ -25,10 +31,10 @@ const AuthButtons = () => {
         </button>
       ) : (
         <button
-          onClick={login}
+          onClick={() => router.push("/login")}
           className="whitespace-nowrap text-sm font-roboto text-[#686f7a] leading-[26px] no-underline flex-shrink-0 ml-[10px] hover:text-black"
         >
-          Sign in
+          Login
         </button>
       )}
     </>
