@@ -23,6 +23,7 @@ const query = gql`
   }
 `;
 
+
 const CourseList = async () => {
   const graphqlClient = await getClient();
   const { data } = await graphqlClient.query<{ getAllCourses: CourseReturn }>({ query, variables: { page: 1, limit: 10 } });
