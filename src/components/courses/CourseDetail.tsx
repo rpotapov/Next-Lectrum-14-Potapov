@@ -1,7 +1,11 @@
-import { CourseType } from "@/src/types";
+import { getClient } from "@/src/lib/client";
+import { CourseReturn, Course } from '@/src/types/__generated__/graphql';
+import { gql } from '@apollo/client';
 import Image from "next/image";
 import Link from "next/link";
-const CourseDetail = ({ course }: { course: CourseType }) => {
+
+const CourseDetail = ({ course }: { course: Course }) => {
+
 
   return (
     <main>
@@ -18,7 +22,7 @@ const CourseDetail = ({ course }: { course: CourseType }) => {
                     className="w-full h-full object-cover"
                     width={300}
                     height={190}
-                    src={`${course.poster}`}
+                    src={`/images/courses/${course.poster}`}
                     alt={`Course ${course.hash}`}
                   />
                   <div className="absolute inset-0 w-full h-full p-2 bg-gradient-to-b from-transparent to-[rgba(51,51,51,0.3)_90%]">

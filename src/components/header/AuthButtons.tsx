@@ -1,15 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { logout as logoutAction } from "../../actions";
 
 const AuthButtons = () => {
   const router = useRouter();
 
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    Boolean(localStorage.getItem("token"))
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsAuthenticated(Boolean(localStorage.getItem("token")));
+    }
+  }, []);
 
   const logout = () => {
     const token = localStorage.getItem("token");
