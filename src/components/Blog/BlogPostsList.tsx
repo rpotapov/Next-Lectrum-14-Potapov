@@ -4,8 +4,20 @@ import { useEffect } from "react";
 import { usePostStore } from "@/store/posts.store";
 import Link from "next/link";
 
+interface Post {
+    id: string;
+    title: string;
+    description: string;
+}
+
+interface PostStore {
+    posts: Post[];
+    getPosts: () => Promise<void>;
+    deletePost: (id: string) => Promise<void>;
+}
+
 export function PostsList() {
-    const { posts, getPosts, deletePost } = usePostStore();
+    const { posts, getPosts, deletePost } = usePostStore() as PostStore;
 
     useEffect(() => {
         getPosts();
@@ -15,14 +27,14 @@ export function PostsList() {
         return <p className="text-gray-500">No posts available.</p>;
     }
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (id: string) => {
         await deletePost(id);
     };
 
     return (
         <section className="mt-8">
             <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post) => (
+                {posts.map((post: Post) => (
                     <div
                         key={post.id}
                         className="bg-white rounded-lg shadow-lg p-6 transform transition duration-300 lg:hover:scale-105 lg:hover:shadow-2xl"
@@ -30,7 +42,7 @@ export function PostsList() {
                         <h2 className="text-2xl font-semibold text-green-700 mb-2">
                             {post.title}
                         </h2>
-                        <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                        <p className="text-gray-600 mb-4">{post.description}</p>
                         <div className="flex justify-between items-center mt-4">
                             <Link
                                 href={`/blog/${post.id}`}

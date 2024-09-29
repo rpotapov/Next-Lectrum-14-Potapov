@@ -2,9 +2,9 @@
 
 import { createClient } from "@/utils/supabase/server";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function GET(request) {
+export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
 
@@ -39,8 +39,12 @@ export async function GET(request) {
     );
   } catch (error) {
     console.error("Get post by ID error:", error);
+    
+    const message =
+      error instanceof Error ? error.message : "An unexpected error occurred.";
+
     return NextResponse.json(
-      { message: error.message || "An unexpected error occurred." },
+      { message },
       { status: 500 }
     );
   }

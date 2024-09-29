@@ -1,8 +1,8 @@
 'use client'
 
-import { useEffect } from "react";
-import { notFound } from "next/navigation";
 import { usePostStore } from "@/store/posts.store";
+import { notFound } from "next/navigation";
+import { useEffect } from "react";
 
 type BlogPostProps = {
     params: {
@@ -12,8 +12,7 @@ type BlogPostProps = {
 
 export default function BlogPostPage({ params }: BlogPostProps) {
     const { blogId } = params;
-    const getPostById = usePostStore((state) => state.getPostById);
-    const selectedPost = usePostStore((state) => state.selectedPost);
+    const { getPostById, selectedPost } = usePostStore();
 
     useEffect(() => {
         if (blogId) {
@@ -34,7 +33,9 @@ export default function BlogPostPage({ params }: BlogPostProps) {
                 <p className="text-gray-700">{selectedPost.description}</p>
                 <div className="mt-4 text-sm text-gray-500">
                     <span>
-                        Posted on: {new Date(selectedPost.created_at).toLocaleDateString()}
+                        Posted on: {<span>
+                            Posted on: {selectedPost.created_at ? new Date(selectedPost.created_at).toLocaleDateString() : 'Date not available'}
+                        </span>}
                     </span>
                 </div>
             </div>

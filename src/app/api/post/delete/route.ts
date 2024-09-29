@@ -1,8 +1,8 @@
 import { createClient } from "@/utils/supabase/server";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 import { cookies } from "next/headers";
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
@@ -35,10 +35,12 @@ export async function POST(request) {
     );
   } catch (error) {
     console.error("Delete post error:", error);
+    const message =
+    error instanceof Error ? error.message : "An unexpected error occurred.";
 
-    return NextResponse.json(
-      { message: error.message || "An unexpected error occurred." },
-      { status: 500 }
-    );
+  return NextResponse.json(
+    { message },
+    { status: 500 }
+  );
   }
 }

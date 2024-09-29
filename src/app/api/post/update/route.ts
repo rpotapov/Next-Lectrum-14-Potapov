@@ -1,7 +1,7 @@
 import { updatePost } from "@/app/blog/actions/updatePost";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(request) {
+export async function POST(request: NextRequest) {
   try {
     const { id, title, description } = await request.json();
 
@@ -18,10 +18,13 @@ export async function POST(request) {
     );
   } catch (error) {
     console.error("Update post error:", error);
+    
+    const message =
+    error instanceof Error ? error.message : "An unexpected error occurred.";
 
-    return NextResponse.json(
-      { message: error.message },
-      { status: 500 }
-    );
+  return NextResponse.json(
+    { message },
+    { status: 500 }
+  );
   }
 }

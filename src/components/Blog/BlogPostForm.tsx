@@ -1,7 +1,7 @@
 "use client";
 
-import { usePostStore } from "@/store/posts.store"; // Import the Zustand store
-import { useSearchParams, useRouter } from "next/navigation"; // Import useRouter for redirection
+import { usePostStore } from "@/store/posts.store";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
 
 const BlogPostFormContent: React.FC = () => {
@@ -36,16 +36,16 @@ const BlogPostFormContent: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (isUpdatePost && postId) {
-            const { status } = await updatePost(postId, post);
-            if (status === 'OK') {
-                router.push('/blog');
+        try {
+            if (isUpdatePost && postId) {
+                await updatePost(postId, post);
+            } else {
+                await createPost(post);
             }
-        } else {
-            const { status } = await createPost(post);
-            if (status === 'OK') {
-                router.push('/blog');
-            }
+
+            router.push('/blog');
+        } catch (error) {
+            console.error('Error during submission:', error);
         }
     };
 

@@ -1,12 +1,29 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
-export const initialState = {
+interface Post {
+  id?: string;
+  title: string;
+  description: string;
+  created_at?: string;
+}
+
+interface PostStore {
+  posts: Post[];
+  selectedPost: Post | null;
+  getPosts: () => Promise<void>;
+  getPostById: (id: string) => Promise<Post | undefined>;
+  updatePost: (id: string, updatedFields: Partial<Post>) => Promise<void>;
+  createPost: (newPost: Post) => Promise<void>;
+  deletePost: (id: string) => Promise<void>;
+}
+
+export const initialState: Pick<PostStore, 'posts' | 'selectedPost'> = {
   posts: [],
-  selectedPost: {}
+  selectedPost: null,
 };
 
-export const usePostStore = create(
+export const usePostStore = create<PostStore>()(
   persist(
     (set) => ({
       ...initialState,
@@ -24,7 +41,7 @@ export const usePostStore = create(
         }
       },
 
-      getPostById: async (id) => {
+      getPostById: async (id: string) => {
         try {
           const resp = await fetch(`/api/post/getById?id=${id}`, {
             method: 'GET'
@@ -45,7 +62,7 @@ export const usePostStore = create(
         }
       },
 
-      updatePost: async (id, updatedFields) => {
+      updatePost: async (id: string, updatedFields: Partial<Post>) => {
         try {
           const resp = await fetch('/api/post/update', {
             method: 'POST',
@@ -69,7 +86,7 @@ export const usePostStore = create(
         }
       },
 
-      createPost: async (newPost) => {
+      createPost: async (newPost: Post) => {
         try {
           const resp = await fetch('/api/post/add', {
             method: 'POST',
@@ -83,7 +100,7 @@ export const usePostStore = create(
           const data = await resp.json();
 
           set((state) => ({
-            posts: [...state.posts, newPost]
+            posts: [...state.posts, data]
           }));
 
           return data;
@@ -92,7 +109,7 @@ export const usePostStore = create(
         }
       },
 
-      deletePost: async (id) => {
+      deletePost: async (id: string) => {
         try {
           const resp = await fetch('/api/post/delete', {
             method: 'POST',
@@ -103,13 +120,11 @@ export const usePostStore = create(
             throw new Error('Failed to delete post');
           }
 
-          const data = await resp.json();
+          await resp.json();
 
           set((state) => ({
             posts: state.posts.filter((post) => post.id !== id)
           }));
-
-          return data;
         } catch (error) {
           console.error('Error deleting post: ', error);
         }
