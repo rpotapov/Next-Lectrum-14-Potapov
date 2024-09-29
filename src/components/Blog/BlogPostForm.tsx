@@ -1,10 +1,8 @@
 "use client";
 
-import addPost from "@/app/blog/actions/addPost";
-import { getPostById } from "@/app/blog/actions/getPostById";
-import { updatePost } from '@/app/blog/actions/updatePost';
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { usePostStore } from "@/store/posts.store"; // Import the Zustand store
+import { useSearchParams, useRouter } from "next/navigation"; // Import useRouter for redirection
+import { Suspense, useEffect, useState } from "react";
 
 const BlogPostFormContent: React.FC = () => {
     const [post, setPost] = useState({ title: '', description: '' });
@@ -12,16 +10,21 @@ const BlogPostFormContent: React.FC = () => {
     const postId = searchParams.get('postId');
     const isUpdatePost = searchParams.get('isUpdatePost');
 
+    const { updatePost, createPost, getPostById } = usePostStore();
+    const router = useRouter();
+
     useEffect(() => {
         if (postId && isUpdatePost) {
-            const getPost = async () => {
-                const data = await getPostById(postId);
-                setPost(data);
+            const fetchPost = async () => {
+                const postData = await getPostById(postId);
+                if (postData) {
+                    setPost(postData);
+                }
             };
 
-            getPost();
+            fetchPost();
         }
-    }, [postId, isUpdatePost]);
+    }, [postId, isUpdatePost, getPostById]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         const { name, value } = e.target;
@@ -34,16 +37,24 @@ const BlogPostFormContent: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (isUpdatePost && postId) {
-            await updatePost(postId, post);
+            const { status } = await updatePost(postId, post);
+            if (status === 'OK') {
+                router.push('/blog');
+            }
         } else {
-            await addPost(post);
+            const { status } = await createPost(post);
+            if (status === 'OK') {
+                router.push('/blog');
+            }
         }
     };
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-green-50">
             <div className="bg-white p-8 rounded-md shadow-lg w-full max-w-md">
-                <h1 className="text-3xl mb-4 text-green-600 font-bold">{isUpdatePost ? 'Update Post' : 'Create Post'}</h1>
+                <h1 className="text-3xl mb-4 text-green-600 font-bold">
+                    {isUpdatePost ? 'Update Post' : 'Create Post'}
+                </h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
                     <input
                         id="title"

@@ -1,14 +1,23 @@
-import deletePost from "@/app/blog/actions/deletePost/intex";
-import { getPosts } from "@/app/blog/actions/getPosts";
+'use client';
+
+import { useEffect } from "react";
+import { usePostStore } from "@/store/posts.store";
 import Link from "next/link";
 
-export async function PostsList() {
-    const { data: posts } = await getPosts();
+export function PostsList() {
+    const { posts, getPosts, deletePost } = usePostStore();
 
+    useEffect(() => {
+        getPosts();
+    }, [getPosts]);
 
-    if (!posts?.length) {
+    if (!posts.length) {
         return <p className="text-gray-500">No posts available.</p>;
     }
+
+    const handleDelete = async (id) => {
+        await deletePost(id);
+    };
 
     return (
         <section className="mt-8">
@@ -53,29 +62,26 @@ export async function PostsList() {
                                         />
                                     </svg>
                                 </Link>
-                                <form action={deletePost}>
-                                    <input type="hidden" name="id" value={post.id} />
-                                    <button
-                                        type="submit"
-                                        className="text-red-500 hover:text-red-700"
-                                        aria-label="Delete Post"
+                                <button
+                                    onClick={() => handleDelete(post.id)}
+                                    className="text-red-500 hover:text-red-700"
+                                    aria-label="Delete Post"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
                                     >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-6 w-6"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
-                                        </svg>
-                                    </button>
-                                </form>
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>
