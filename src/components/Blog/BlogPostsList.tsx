@@ -5,6 +5,7 @@ import Link from "next/link";
 export async function PostsList() {
     const { data: posts } = await getPosts();
 
+
     if (!posts?.length) {
         return <p className="text-gray-500">No posts available.</p>;
     }
