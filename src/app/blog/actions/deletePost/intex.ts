@@ -9,6 +9,7 @@ export default async function deletePost(formData: FormData) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
+  
   const postId = formData.get("id")?.toString();
 
   if (!postId) {
