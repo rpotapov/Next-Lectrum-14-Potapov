@@ -25,7 +25,6 @@ export default async function deletePost(formData: FormData) {
     throw new Error(`Failed to delete post: ${error.message}`);
   }
 
-
   revalidatePath("/blog");
 
   redirect("/blog");
