@@ -4,9 +4,9 @@ import addPost from "@/app/blog/actions/addPost";
 import { getPostById } from "@/app/blog/actions/getPostById";
 import { updatePost } from '@/app/blog/actions/updatePost';
 import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
-export const BlogPostForm: React.FC = () => {
+const BlogPostFormContent: React.FC = () => {
     const [post, setPost] = useState({ title: '', description: '' });
     const searchParams = useSearchParams();
     const postId = searchParams.get('postId');
@@ -71,6 +71,14 @@ export const BlogPostForm: React.FC = () => {
                 </form>
             </div>
         </div>
+    );
+};
+
+export const BlogPostForm: React.FC = () => {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <BlogPostFormContent />
+        </Suspense>
     );
 };
 
