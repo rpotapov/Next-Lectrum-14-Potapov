@@ -9,7 +9,7 @@ export default async function deletePost(formData: FormData) {
   const cookieStore = cookies();
   const supabase = createClient(cookieStore);
 
-  
+
   const postId = formData.get("id")?.toString();
 
   if (!postId) {
@@ -17,7 +17,7 @@ export default async function deletePost(formData: FormData) {
     return;
   }
 
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("blog")
     .delete()
     .eq("id", postId);
