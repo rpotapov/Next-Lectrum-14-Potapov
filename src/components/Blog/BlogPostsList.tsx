@@ -1,19 +1,40 @@
-import deletePost from "@/app/blog/actions/deletePost/intex";
-import { getPosts } from "@/app/blog/actions/getPosts";
+'use client';
+
+import { useEffect } from "react";
+import { usePostStore } from "@/store/posts.store";
 import Link from "next/link";
 
-export async function PostsList() {
-    const { data: posts } = await getPosts();
+interface Post {
+    id: string;
+    title: string;
+    description: string;
+}
 
+interface PostStore {
+    posts: Post[];
+    getPosts: () => Promise<void>;
+    deletePost: (id: string) => Promise<void>;
+}
 
-    if (!posts?.length) {
+export function PostsList() {
+    const { posts, getPosts, deletePost } = usePostStore() as PostStore;
+
+    useEffect(() => {
+        getPosts();
+    }, [getPosts]);
+
+    if (!posts.length) {
         return <p className="text-gray-500">No posts available.</p>;
     }
+
+    const handleDelete = async (id: string) => {
+        await deletePost(id);
+    };
 
     return (
         <section className="mt-8">
             <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-                {posts.map((post) => (
+                {posts.map((post: Post) => (
                     <div
                         key={post.id}
                         className="bg-white rounded-lg shadow-lg p-6 transform transition duration-300 lg:hover:scale-105 lg:hover:shadow-2xl"
@@ -21,7 +42,7 @@ export async function PostsList() {
                         <h2 className="text-2xl font-semibold text-green-700 mb-2">
                             {post.title}
                         </h2>
-                        <p className="text-gray-600 mb-4">{post.excerpt}</p>
+                        <p className="text-gray-600 mb-4">{post.description}</p>
                         <div className="flex justify-between items-center mt-4">
                             <Link
                                 href={`/blog/${post.id}`}
@@ -53,29 +74,26 @@ export async function PostsList() {
                                         />
                                     </svg>
                                 </Link>
-                                <form action={deletePost}>
-                                    <input type="hidden" name="id" value={post.id} />
-                                    <button
-                                        type="submit"
-                                        className="text-red-500 hover:text-red-700"
-                                        aria-label="Delete Post"
+                                <button
+                                    onClick={() => handleDelete(post.id)}
+                                    className="text-red-500 hover:text-red-700"
+                                    aria-label="Delete Post"
+                                >
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        className="h-6 w-6"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
                                     >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-6 w-6"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M6 18L18 6M6 6l12 12"
-                                            />
-                                        </svg>
-                                    </button>
-                                </form>
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth={2}
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                </button>
                             </div>
                         </div>
                     </div>

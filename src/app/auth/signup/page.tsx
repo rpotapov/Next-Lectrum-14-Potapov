@@ -1,9 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useAuthStore } from '@/store/auth.store';
 import { useRouter } from 'next/navigation';
-import { saveUser } from '@/app/auth/actions';
-import { supabase } from '@/libs/supabase';
+import { useState } from 'react';
 
 export default function SignUp() {
   const [email, setEmail] = useState('');
@@ -11,27 +10,24 @@ export default function SignUp() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  const { signUp } = useAuthStore();
+
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    setError(null);
 
-    if (error) {
-      setError(error.message);
-    } else {
-      setError(null);
+    try {
+      const response = await signUp({ email, password });
 
-      if (data.user) {
-        try {
-          await saveUser({ id: data.user.id, email: data.user.email || '' });
-        } catch (saveError) {
-          console.error('Failed to save user profile:', saveError);
-        }
+      if (response.error) {
+        setError(response.error.message);
+      } else {
+
+        router.push('/profile');
       }
-
-      router.push('/profile');
+    } catch (error) {
+      console.error('Error during sign up: ', error);
+      setError('Something went wrong. Please try again.');
     }
   };
 
