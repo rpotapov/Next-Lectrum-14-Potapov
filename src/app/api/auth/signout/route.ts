@@ -1,11 +1,8 @@
-// src/app/api/auth/session/route.ts
-
 import { NextResponse } from 'next/server';
 import { supabase } from '@/libs/supabase';
 
-export async function GET() {
-  const { data: { session }, error } = await supabase.auth.getSession();
-
+export async function POST() {
+  const { error } = await supabase.auth.signOut();
   if (error) {
     return NextResponse.json(
       { message: error.message },
@@ -13,5 +10,8 @@ export async function GET() {
     );
   }
 
-  return NextResponse.json({ session }, { status: 200 });
+  return NextResponse.json(
+    { message: 'Sign-out successful' },
+    { status: 200 }
+  );
 }

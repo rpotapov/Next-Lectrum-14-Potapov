@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/libs/supabase';
+import { useAuthStore } from '@/store/auth.store';
+import { useState } from 'react';
 
 export default function SignIn() {
   const [email, setEmail] = useState('');
@@ -10,26 +10,22 @@ export default function SignIn() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  const { signIn } = useAuthStore();
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const response = await signIn({ email, password });
 
-    if (error) {
-      setError(error.message);
-    } else {
-      setError(null);
-
-      const accessToken = data.session?.access_token;
-
-      if (accessToken) {
-        document.cookie = `sb-access-token=${accessToken}; path=/;`;
-        router.push('/profile');
+      if (response?.error) {
+        setError(response.error.message);
       } else {
-        console.error('Access token is missing.');
+        setError(null);
+        router.push('/profile');
       }
+    } catch (err) {
+      console.error('Error signing in:', err);
+      setError('Something went wrong. Please try again.');
     }
   };
 

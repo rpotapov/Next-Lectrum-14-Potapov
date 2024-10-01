@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/libs/supabase';
+import { useAuthStore } from '@/store/auth.store';
 
 export default function ConfirmEmail() {
   const router = useRouter();
   const [message, setMessage] = useState('Verifying your email...');
+  const { confirmEmail } = useAuthStore();
 
   useEffect(() => {
-    const confirmEmail = async () => {
+    const verifyEmail = async () => {
       const token = new URLSearchParams(window.location.search).get('token');
       const email = new URLSearchParams(window.location.search).get('email');
 
@@ -18,25 +19,21 @@ export default function ConfirmEmail() {
         return;
       }
 
-      const { error } = await supabase.auth.verifyOtp({
-        email,
-        token,
-        type: 'email',
-      });
+      const response = await confirmEmail({ email, token });
 
-      if (error) {
-        console.error('Verification error:', error);
-        setMessage('Failed to verify email: ' + error.message);
+      if (response.error) {
+        console.error('Verification error:', response.error);
+        setMessage('Failed to verify email: ' + response.error.message);
       } else {
         setMessage('Email successfully verified! Redirecting...');
         setTimeout(() => {
           router.push('/auth/signin');
-        }, 2000);
+        }, 3000);
       }
     };
 
-    confirmEmail();
-  }, [router]);
+    verifyEmail();
+  }, [router, confirmEmail]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-green-50">
