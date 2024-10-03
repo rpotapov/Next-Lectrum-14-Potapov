@@ -1,6 +1,7 @@
 import { Article, PageProps } from '@/types';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
+import Link from 'next/link';
 
 const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
   const [selectedSource, setSelectedSource] = useState<string>('all');
@@ -14,6 +15,14 @@ const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
   return (
     <div className="min-h-screen bg-black text-white pb-8">
       <h1 className="text-4xl font-bold text-center py-8">Top US News</h1>
+
+      <div className="text-center mb-6">
+        <Link href="/bitcoin">
+          <span className="text-yellow-500 underline hover:text-yellow-300 transition duration-300">
+            See Bitcoin News
+          </span>
+        </Link>
+      </div>
 
       <div className="flex justify-center mb-8">
         <select

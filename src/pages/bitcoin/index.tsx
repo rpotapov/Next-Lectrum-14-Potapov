@@ -4,7 +4,7 @@ import { GetServerSideProps } from 'next';
 const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
     return (
         <div className="min-h-screen bg-black text-white">
-            <h1 className="text-4xl font-bold text-center py-8">Top US News</h1>
+            <h1 className="text-4xl font-bold text-center py-8">Bitcoin News</h1>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-12">
                 {topHeadlines.map((news) => (
                     <a
@@ -33,7 +33,7 @@ const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
 export const getServerSideProps: GetServerSideProps = async () => {
     try {
         const res = await fetch(
-            `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+            `https://newsapi.org/v2/everything?q=bitcoin&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
         );
         const data = await res.json();
 
