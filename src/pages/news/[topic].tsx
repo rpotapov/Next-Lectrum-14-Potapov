@@ -1,20 +1,45 @@
 import { Article } from '@/types';
-import { GetStaticPaths, GetStaticProps } from 'next';
 import { useState } from 'react';
+import { useQuery, QueryClient, dehydrate } from '@tanstack/react-query';
+import { GetStaticPaths, GetStaticProps } from 'next';
 
 interface TopicPageProps {
-    articles: Article[];
     topic: string;
 }
 
-const TopicPage: React.FC<TopicPageProps> = ({ articles, topic }) => {
+const fetchArticles = async (topic: string) => {
+    const res = await fetch(
+        `https://newsapi.org/v2/everything?q=${topic}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+    );
+    if (!res.ok) {
+        throw new Error('Failed to fetch news');
+    }
+    const data = await res.json();
+    return data.articles.map((article: Article) => ({
+        source: article.source || { id: null, name: 'Unknown source' },
+        author: article.author || 'Unknown author',
+        title: article.title || 'No title',
+        description: article.description || null,
+        url: article.url || '#',
+        urlToImage: article.urlToImage || null,
+        publishedAt: article.publishedAt || 'Unknown date',
+        content: article.content || null,
+    }));
+};
+
+const TopicPage: React.FC<TopicPageProps> = ({ topic }) => {
     const [selectedSource, setSelectedSource] = useState<string>('all');
 
-    const uniqueSources = Array.from(new Set(articles.map((news) => news.source.name)));
+    const { data: cachedArticles = [] } = useQuery<Article[]>({
+        queryKey: ['articles', topic],
+        queryFn: () => fetchArticles(topic),
+    });
+
+    const uniqueSources = Array.from(new Set<string>(cachedArticles.map((news: Article) => news.source.name)));
 
     const filteredArticles = selectedSource === 'all'
-        ? articles
-        : articles.filter((news) => news.source.name === selectedSource);
+        ? cachedArticles
+        : cachedArticles.filter((news: Article) => news.source.name === selectedSource);
 
     return (
         <div className="min-h-screen bg-black text-white">
@@ -51,7 +76,7 @@ const TopicPage: React.FC<TopicPageProps> = ({ articles, topic }) => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-4 md:px-12">
-                {filteredArticles.map((news) => (
+                {filteredArticles.map((news: Article) => (
                     <a
                         key={news.url}
                         href={news.url}
@@ -88,36 +113,27 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
     const topic = params?.topic;
 
-    try {
-        const res = await fetch(
-            `https://newsapi.org/v2/everything?q=${topic}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
-        );
-        const data = await res.json();
+    const queryClient = new QueryClient();
 
-        const sanitizedArticles: Article[] = data.articles?.map((article: Article) => ({
-            source: article.source || { id: null, name: 'Unknown source' },
-            author: article.author || 'Unknown author',
-            title: article.title || 'No title',
-            description: article.description || null,
-            url: article.url || '#',
-            urlToImage: article.urlToImage || null,
-            publishedAt: article.publishedAt || 'Unknown date',
-            content: article.content || null,
-        })) || [];
+    try {
+        await queryClient.prefetchQuery({
+            queryKey: ['articles', topic],
+            queryFn: () => fetchArticles(topic as string),
+        });
 
         return {
             props: {
-                articles: sanitizedArticles,
                 topic,
+                dehydratedState: dehydrate(queryClient),
             },
-            revalidate: 86400, // 24h
+            revalidate: 86400,
         };
     } catch (error) {
         console.error(`Error fetching ${topic} news:`, error);
         return {
             props: {
-                articles: [],
                 topic: topic || 'Unknown Topic',
+                dehydratedState: dehydrate(queryClient),
             },
         };
     }
