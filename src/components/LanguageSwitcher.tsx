@@ -10,19 +10,21 @@ const LanguageSwitcher = () => {
     };
 
     return (
-        <div className="flex space-x-4">
-            <button
-                onClick={() => changeLanguage('en')}
-                className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-400 transition duration-300"
-            >
-                English
-            </button>
-            <button
-                onClick={() => changeLanguage('uk')}
-                className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-400 transition duration-300"
-            >
-                Українська
-            </button>
+        <div className="flex justify-center pt-8">
+            <div className="flex space-x-4">
+                <button
+                    onClick={() => changeLanguage('en')}
+                    className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-400 transition duration-300"
+                >
+                    English
+                </button>
+                <button
+                    onClick={() => changeLanguage('uk')}
+                    className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-400 transition duration-300"
+                >
+                    Українська
+                </button>
+            </div>
         </div>
     );
 };
