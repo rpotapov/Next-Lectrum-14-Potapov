@@ -11,12 +11,15 @@ const initialState: BitcoinState = {
     status: 'idle',
 };
 
-export const fetchBitcoinNews = createAsyncThunk(
+export const fetchBitcoinNews = createAsyncThunk<Article[], void>(
     'bitcoin/fetchBitcoinNews',
     async () => {
         const res = await fetch(
             `https://newsapi.org/v2/everything?q=bitcoin&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
         );
+        if (!res.ok) {
+            throw new Error('Failed to fetch Bitcoin news');
+        }
         const data = await res.json();
 
         return data.articles.map((article: Article) => ({
@@ -45,8 +48,9 @@ const bitcoinSlice = createSlice({
                 state.status = 'succeeded';
                 state.articles = action.payload;
             })
-            .addCase(fetchBitcoinNews.rejected, (state) => {
+            .addCase(fetchBitcoinNews.rejected, (state, action) => {
                 state.status = 'failed';
+                console.error('Error fetching Bitcoin news:', action.error);
             });
     },
 });

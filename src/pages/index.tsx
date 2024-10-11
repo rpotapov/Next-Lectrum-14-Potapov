@@ -1,9 +1,10 @@
 import { Article, PageProps } from '@/types';
 import { GetServerSideProps } from 'next';
 import { useState } from 'react';
-import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
+  const { t } = useTranslation('common');
   const [selectedSource, setSelectedSource] = useState<string>('all');
 
   const uniqueSources = Array.from(new Set(topHeadlines.map((news) => news.source.name)));
@@ -14,23 +15,14 @@ const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
 
   return (
     <div className="min-h-screen bg-black text-white pb-8">
-      <h1 className="text-4xl font-bold text-center py-8">Top US News</h1>
-
-      <div className="text-center mb-6">
-        <Link href="/bitcoin">
-          <span className="text-yellow-500 underline hover:text-yellow-300 transition duration-300">
-            See Bitcoin News
-          </span>
-        </Link>
-      </div>
-
+      <h1 className="text-4xl font-bold text-center py-8">{t('top_us_news')}</h1>
       <div className="flex justify-center mb-8">
         <select
           value={selectedSource}
           onChange={(e) => setSelectedSource(e.target.value)}
           className="bg-gray-800 border border-gray-700 text-white rounded-md px-4 py-2 appearance-none focus:outline-none focus:ring focus:ring-yellow-500 transition duration-300"
         >
-          <option value="all">All Sources</option>
+          <option value="all">{t('all_sources')}</option>
           {uniqueSources.map((source, index) => (
             <option key={index} value={source}>
               {source}
@@ -51,11 +43,11 @@ const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
             <div>
               <h2 className="text-2xl font-semibold mb-4">{news.title}</h2>
               <p className="text-gray-400 mb-4">
-                {news.description || 'No description available.'}
+                {news.description || t('no_description')}
               </p>
             </div>
             <div className="mt-auto">
-              <div className="text-yellow-500 font-semibold">Read more</div>
+              <div className="text-yellow-500 font-semibold">{t('read_more')}</div>
             </div>
           </a>
         ))}
@@ -81,7 +73,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       publishedAt: article.publishedAt || 'Unknown date',
       content: article.content || null,
     })) || [];
-
+    console.log('Added articles: top-headlines for USA');
     return {
       props: {
         topHeadlines: sanitizedArticles,

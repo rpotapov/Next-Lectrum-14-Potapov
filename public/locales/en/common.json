@@ -1,0 +1,13 @@
+{
+    "home": "Home",
+    "top_us_news": "Top US News",
+    "bitcoin_news": "Bitcoin News",
+    "football_news": "Football News",
+    "ethereum_news": "Ethereum News",
+    "cryptocurrency_news": "Cryptocurrency News",
+    "all_sources": "All Sources",
+    "no_description": "No description available.",
+    "loading_bitcoins_news": "Loading ... Bitcoins News",
+    "error_while_loading_btc_news": "Error loads BTC News",
+    "read_more": "Read More"
+}
