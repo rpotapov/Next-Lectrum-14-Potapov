@@ -2,6 +2,7 @@ import { Article } from '@/types';
 import { useState } from 'react';
 import { useQuery, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPaths, GetStaticProps } from 'next';
+import { useTranslation } from 'react-i18next';
 
 interface TopicPageProps {
     topic: string;
@@ -28,6 +29,7 @@ const fetchArticles = async (topic: string) => {
 };
 
 const TopicPage: React.FC<TopicPageProps> = ({ topic }) => {
+    const { t } = useTranslation('common');
     const [selectedSource, setSelectedSource] = useState<string>('all');
 
     const { data: cachedArticles = [] } = useQuery<Article[]>({
@@ -43,7 +45,7 @@ const TopicPage: React.FC<TopicPageProps> = ({ topic }) => {
 
     return (
         <div className="min-h-screen bg-black text-white">
-            <h1 className="text-4xl font-bold text-center py-8">{topic} News</h1>
+            <h1 className="text-4xl font-bold text-center py-8">{t(`${topic}_news`)}</h1>
 
             <div className="flex justify-center mb-8">
                 <select
@@ -51,7 +53,7 @@ const TopicPage: React.FC<TopicPageProps> = ({ topic }) => {
                     onChange={(e) => setSelectedSource(e.target.value)}
                     className="bg-gray-800 border border-gray-700 text-white rounded-md px-4 py-2 appearance-none focus:outline-none focus:ring focus:ring-yellow-500 transition duration-300"
                 >
-                    <option value="all">All Sources</option>
+                    <option value="all">{t('all_sources')}</option>
                     {uniqueSources.map((source, index) => (
                         <option key={index} value={source}>
                             {source}
@@ -87,11 +89,11 @@ const TopicPage: React.FC<TopicPageProps> = ({ topic }) => {
                         <div>
                             <h2 className="text-2xl font-semibold mb-4">{news.title}</h2>
                             <p className="text-gray-400 mb-4">
-                                {news.description || 'No description available.'}
+                                {news.description || t('no_description')}
                             </p>
                         </div>
                         <div className="mt-auto">
-                            <div className="text-yellow-500 font-semibold">Read more</div>
+                            <div className="text-yellow-500 font-semibold">{t('read_more')}</div>
                         </div>
                     </a>
                 ))}

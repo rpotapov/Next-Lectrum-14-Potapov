@@ -1,15 +1,17 @@
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import { useTranslation } from 'react-i18next';
 
 const BitcoinNews = () => {
+    const { t } = useTranslation('common');
     const { articles, status } = useSelector((state: RootState) => state.bitcoin);
 
     if (status === 'loading') {
-        return <p>Loading...</p>;
+        return <p>{t('loading_bitcoins_news')}</p>;
     }
 
     if (status === 'failed') {
-        return <p>Error loading Bitcoin news.</p>;
+        return <p>{t('error_while_loading_btc_news')}</p>;
     }
 
     return (
@@ -25,11 +27,11 @@ const BitcoinNews = () => {
                     <div>
                         <h2 className="text-2xl font-semibold mb-4">{news.title}</h2>
                         <p className="text-gray-400 mb-4">
-                            {news.description || "No description available."}
+                            {news.description || t('no_description')}
                         </p>
                     </div>
                     <div className="mt-auto">
-                        <div className="text-yellow-500 font-semibold">Read more</div>
+                        <div className="text-yellow-500 font-semibold">{t('read_more')}</div>
                     </div>
                 </a>
             ))}

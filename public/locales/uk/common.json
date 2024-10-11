@@ -1,0 +1,12 @@
+{
+    "home": "Головна",
+    "bitcoin_news": "Новини Біткоїна",
+    "football_news": "Футбольні новини",
+    "ethereum_news": "Новини Ефіріума",
+    "cryptocurrency_news": "Новини криптовалют",
+    "all_sources": "Всі джерела",
+    "no_description": "Опис недоступний.",
+    "loading_bitcoins_news": "Завантаження ... Новини Біткоїна",
+    "error_while_loading_btc_news": "Помилка при завантаженні новин BTC",
+    "read_more": "Читати далі"
+}
