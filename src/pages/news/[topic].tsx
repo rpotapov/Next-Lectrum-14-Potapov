@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useQuery, QueryClient, dehydrate } from '@tanstack/react-query';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { useTranslation } from 'react-i18next';
+import Head from 'next/head';
 
 interface TopicPageProps {
     topic: string;
@@ -32,10 +33,18 @@ const TopicPage: React.FC<TopicPageProps> = ({ topic }) => {
     const { t } = useTranslation('common');
     const [selectedSource, setSelectedSource] = useState<string>('all');
 
-    const { data: cachedArticles = [] } = useQuery<Article[]>({
+    const { data: cachedArticles = [], isLoading, isError } = useQuery<Article[]>({
         queryKey: ['articles', topic],
         queryFn: () => fetchArticles(topic),
     });
+
+    if (isLoading) {
+        return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading articles...</div>;
+    }
+
+    if (isError) {
+        return <div className="min-h-screen bg-black text-white flex items-center justify-center">Error fetching articles. Please try again later.</div>;
+    }
 
     const uniqueSources = Array.from(new Set<string>(cachedArticles.map((news: Article) => news.source.name)));
 
@@ -45,6 +54,10 @@ const TopicPage: React.FC<TopicPageProps> = ({ topic }) => {
 
     return (
         <div className="min-h-screen bg-black text-white">
+            <Head>
+                <title>{t(`${topic}_news`)} - My News Site</title>
+                <meta name="description" content={`Latest news about ${topic}`} />
+            </Head>
             <h1 className="text-4xl font-bold text-center py-8">{t(`${topic}_news`)}</h1>
 
             <div className="flex justify-center mb-8">
@@ -109,7 +122,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         params: { topic },
     }));
 
-    return { paths, fallback: 'blocking' };
+    return { paths, fallback: false }; // Use `false` to ensure all paths are pre-rendered at build time
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -128,7 +141,6 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
                 topic,
                 dehydratedState: dehydrate(queryClient),
             },
-            revalidate: 86400,
         };
     } catch (error) {
         console.error(`Error fetching ${topic} news:`, error);
