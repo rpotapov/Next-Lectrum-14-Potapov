@@ -79,7 +79,6 @@ export const getStaticProps: GetStaticProps = async () => {
       props: {
         topHeadlines: sanitizedArticles,
       },
-      // Remove revalidate as ISR is not supported with static export
     };
   } catch (error) {
     console.error('Error fetching top headlines:', error);

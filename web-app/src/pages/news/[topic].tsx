@@ -122,7 +122,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
         params: { topic },
     }));
 
-    return { paths, fallback: false }; // Use `false` to ensure all paths are pre-rendered at build time
+    return { paths, fallback: false };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
