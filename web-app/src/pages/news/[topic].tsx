@@ -11,7 +11,7 @@ interface TopicPageProps {
 
 const fetchArticles = async (topic: string) => {
     const res = await fetch(
-        `https://newsapi.org/v2/everything?q=${topic}&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+        `https://newsapi.org/v2/everything?q=${topic}&apiKey=577223450f8e4b6dbcb2870dd53f30c5`
     );
     if (!res.ok) {
         throw new Error('Failed to fetch news');

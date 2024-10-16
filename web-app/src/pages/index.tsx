@@ -59,7 +59,7 @@ const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
 export const getStaticProps: GetStaticProps = async () => {
   try {
     const res = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+      `https://newsapi.org/v2/top-headlines?country=us&apiKey=577223450f8e4b6dbcb2870dd53f30c5`
     );
     const data = await res.json();
 
