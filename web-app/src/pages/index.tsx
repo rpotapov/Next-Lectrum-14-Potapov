@@ -1,5 +1,5 @@
 import { Article, PageProps } from '@/types';
-import { GetServerSideProps } from 'next';
+import { GetStaticProps } from 'next';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -56,10 +56,10 @@ const HomePage: React.FC<PageProps> = ({ topHeadlines }) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   try {
     const res = await fetch(
-      `https://newsapi.org/v2/top-headlines?country=us&apiKey=${process.env.NEXT_PUBLIC_NEWS_API_KEY}`
+      `https://newsapi.org/v2/top-headlines?country=us&apiKey=577223450f8e4b6dbcb2870dd53f30c5`
     );
     const data = await res.json();
 
@@ -73,6 +73,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       publishedAt: article.publishedAt || 'Unknown date',
       content: article.content || null,
     })) || [];
+
     console.log('Added articles: top-headlines for USA');
     return {
       props: {
