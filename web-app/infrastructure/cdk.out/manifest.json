@@ -1,0 +1,96 @@
+{
+  "version": "38.0.1",
+  "artifacts": {
+    "InfrastructureStack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "InfrastructureStack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "InfrastructureStack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "InfrastructureStack.template.json",
+        "terminationProtection": false,
+        "validateOnSynth": false,
+        "notificationArns": [],
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/82cf0a15ac1c07d1e0dc3bed400c7678a1e9040e33008cb4cf2cb1b9eb3ef39d.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "InfrastructureStack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "InfrastructureStack.assets"
+      ],
+      "metadata": {
+        "/InfrastructureStack/AppRunnerInstanceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AppRunnerInstanceRole96A5A063"
+          }
+        ],
+        "/InfrastructureStack/AppRunnerAccessRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AppRunnerAccessRoleC89E5843"
+          }
+        ],
+        "/InfrastructureStack/AppRunnerAccessRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AppRunnerAccessRoleDefaultPolicy4FF2CFAF"
+          }
+        ],
+        "/InfrastructureStack/nextJsAppRunnerApp": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "nextJsAppRunnerApp"
+          }
+        ],
+        "/InfrastructureStack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/InfrastructureStack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/InfrastructureStack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/InfrastructureStack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "InfrastructureStack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
